@@ -3,17 +3,14 @@ package database
 import (
 	"database/sql"
 	"log"
-	"os"
 
 	_ "github.com/lib/pq"
 )
 
 var DB *sql.DB
 
-func InitDB() {
-	dsn := os.Getenv("DATABASE_URI")
-
-	DB, err := sql.Open("postgres", dsn)
+func InitDB(uri string) {
+	DB, err := sql.Open("postgres", uri)
 	if err != nil {
 		log.Fatalf("Error opening database: %v", err)
 	}

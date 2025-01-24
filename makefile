@@ -5,7 +5,7 @@ export
 BINARY_NAME=go-api-template
 GO_FILES=$(shell find . -name '*.go' -not -path './vendor/*')
 MIGRATE_PATH=./migrations
-DB_URL=$(DATABSE_URL)
+DB_URL=$(DATABASE_URI)
 APP_NAME=go-api-template
 DOCKER_IMAGE_NAME=go-api-template
 DOCKER_TAG=latest

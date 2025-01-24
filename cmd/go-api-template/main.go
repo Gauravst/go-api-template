@@ -23,7 +23,7 @@ func main() {
 	cfg := config.ConfigMustLoad()
 
 	// database setup
-	database.InitDB()
+	database.InitDB(cfg.DatabaseUri)
 	defer database.CloseDB()
 
 	//setup router
