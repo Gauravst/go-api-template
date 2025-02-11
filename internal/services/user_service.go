@@ -9,9 +9,9 @@ import (
 )
 
 type UserService interface {
-	CreateUser(user models.User) error
+	CreateUser(user *models.User) error
 	GetUserByID(id int) (*models.User, error)
-	UpdateUser(user models.User) error
+	UpdateUser(user *models.User) error
 	DeleteUser(id int) error
 }
 
@@ -25,12 +25,12 @@ func NewUserService(userRepo repositories.UserRepository) UserService {
 	}
 }
 
-func (s *userService) CreateUser(user models.User) error {
+func (s *userService) CreateUser(user *models.User) error {
 	if user.Name == "" {
 		return errors.New("user name cannot be empty")
 	}
 
-	err := s.userRepo.CreateUser(&user)
+	err := s.userRepo.CreateUser(user)
 	if err != nil {
 		return fmt.Errorf("failed to create user: %w", err)
 	}
@@ -49,12 +49,12 @@ func (s *userService) GetUserByID(id int) (*models.User, error) {
 }
 
 // UpdateUser updates an existing user
-func (s *userService) UpdateUser(user models.User) error {
+func (s *userService) UpdateUser(user *models.User) error {
 	if user.Name == "" {
 		return errors.New("user name cannot be empty")
 	}
 
-	err := s.userRepo.UpdateUser(&user)
+	err := s.userRepo.UpdateUser(user)
 	if err != nil {
 		return fmt.Errorf("failed to update user: %w", err)
 	}

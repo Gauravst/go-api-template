@@ -14,13 +14,7 @@ This is a production-ready Go backend API template designed to kickstart your ne
 - **Modular Structure**: Organized into `models`, `database`, `handlers`, `middleware`, `repositories`, and `services`.
 - **Testing System**: Includes a robust testing framework for unit and integration tests.
 
-## Project Structure
-
-## Prerequisites
-
-- Go 1.23 or higher
-- Docker and Docker Compose
-- Make file
+## Setup
 
 ### 1. Create a New Repository
 
@@ -53,4 +47,3 @@ Contributions are welcome! Please open an issue or submit a pull request for any
 ## License
 
 This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
-
