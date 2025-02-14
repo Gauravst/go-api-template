@@ -10,9 +10,14 @@ import (
 var DB *sql.DB
 
 func InitDB(uri string) {
-	DB, err := sql.Open("postgres", uri)
+	var err error
+	DB, err = sql.Open("postgres", uri)
 	if err != nil {
 		log.Fatalf("Error opening database: %v", err)
+	}
+
+	if DB == nil {
+		log.Fatal("database connection is nil")
 	}
 
 	err = DB.Ping()

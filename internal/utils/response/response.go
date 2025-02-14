@@ -26,6 +26,10 @@ func WriteJson(w http.ResponseWriter, status int, data interface{}) error {
 	return json.NewEncoder(w).Encode(data)
 }
 
+func RedirectToURL(w http.ResponseWriter, r *http.Request, url string, status int) {
+	http.Redirect(w, r, url, status)
+}
+
 func GeneralError(err error) Response {
 	return Response{
 		Status: StatusError,
