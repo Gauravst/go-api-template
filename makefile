@@ -1,6 +1,10 @@
 include .env
 export
 
+# template migrate Variables
+OLD_IMPORT=github.com/gauravst/go-api-template
+OLD_CMD_DIR=cmd/go-api-template
+
 # Variables
 BINARY_NAME=go-api-template
 GO_FILES=$(shell find . -name '*.go' -not -path './vendor/*')
@@ -86,6 +90,29 @@ docker-all: docker-build docker-run
 # Run all checks (format, test, build)
 check: fmt test build
 
+# template migrate 
+setup:
+	@echo "Enter your GitHub username :-"
+	@read USERNAME; \
+		echo "Enter your project name :-"; \
+	read PROJECT; \
+	LOWER_USERNAME=$$(echo $$USERNAME | tr '[:upper:]' '[:lower:]'); \
+	LOWER_PROJECT=$$(echo $$PROJECT | tr '[:upper:]' '[:lower:]'); \
+	NEW_IMPORT=github.com/$$LOWER_USERNAME/$$LOWER_PROJECT; \
+	NEW_CMD_DIR=cmd/$$LOWER_PROJECT; \
+	echo "Replacing imports..."; \
+	find . -type f -name "*.go" -exec sed -i 's|$(OLD_IMPORT)|'$$NEW_IMPORT'|g' {} +; \
+	find . -type f -name "go.mod" -exec sed -i 's|$(OLD_IMPORT)|'$$NEW_IMPORT'|g' {} +; \
+	find . -type f -name "go.sum" -exec sed -i 's|$(OLD_IMPORT)|'$$NEW_IMPORT'|g' {} +; \
+	echo "Renaming main.go..."; \
+	mkdir -p $$NEW_CMD_DIR; \
+	mv $(OLD_CMD_DIR)/main.go $$NEW_CMD_DIR/main.go; \
+	rm -rf $(OLD_CMD_DIR); \
+	echo "Updating Makefile..."; \
+	sed -i 's|OLD_IMPORT=$(OLD_IMPORT)|OLD_IMPORT='$$NEW_IMPORT'|g' makefile; \
+	sed -i 's|OLD_CMD_DIR=$(OLD_CMD_DIR)|OLD_CMD_DIR='$$NEW_CMD_DIR'|g' makefile; \
+	echo "Setup completed!"
+
 # Help (list all targets)
 help:
 	@echo "Available targets:"
@@ -104,3 +131,4 @@ help:
 	@echo "  docker-rmi    - Remove the Docker image"
 	@echo "  docker-clean  - Clean up Docker resources (stop, remove container, and remove image)"
 	@echo "  docker-all    - Build and run the Docker container"
+	@echo "  setup     - To Setup Project"
