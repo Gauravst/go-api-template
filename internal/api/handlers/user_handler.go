@@ -39,7 +39,7 @@ func CreateUser(userService services.UserService) http.HandlerFunc {
 
 		// call here services
 
-		err = userService.CreateUser(user)
+		err = userService.CreateUser(&user)
 		if err != nil {
 			response.WriteJson(w, http.StatusInternalServerError, response.GeneralError(err))
 			return
