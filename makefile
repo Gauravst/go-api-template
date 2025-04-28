@@ -5,6 +5,10 @@ export
 OLD_IMPORT=github.com/gauravst/go-api-template
 OLD_CMD_DIR=cmd/go-api-template
 
+# info Variables
+PROJECT_NAME=go-api-template
+GITHUB_USERNAME=gauravst
+
 # Variables
 BINARY_NAME=go-api-template
 GO_FILES=$(shell find . -name '*.go' -not -path './vendor/*')
@@ -21,12 +25,12 @@ all: build
 # Build the application
 build:
 	@echo "Building the application..."
-	go build -o bin/$(BINARY_NAME) cmd/go-api-template/main.go
+	go build -o bin/$(BINARY_NAME) cmd/$(PROJECT_NAME)/main.go
 
 # Run the application
 run:
 	@echo "Running the application..."
-	go run cmd/go-api-template/main.go
+	go run cmd/$(PROJECT_NAME)/main.go
 
 # Run tests
 test:
@@ -111,6 +115,11 @@ setup:
 	echo "Updating Makefile..."; \
 	sed -i 's|OLD_IMPORT=$(OLD_IMPORT)|OLD_IMPORT='$$NEW_IMPORT'|g' makefile; \
 	sed -i 's|OLD_CMD_DIR=$(OLD_CMD_DIR)|OLD_CMD_DIR='$$NEW_CMD_DIR'|g' makefile; \
+	sed -i 's|PROJECT_NAME=$(PROJECT_NAME)|PROJECT_NAME='$$LOWER_PROJECT'|g' makefile; \
+	sed -i 's|GITHUB_USERNAME=$(GITHUB_USERNAME)|GITHUB_USERNAME='$$LOWER_USERNAME'|g' makefile; \
+	sed -i 's|BINARY_NAME=$(BINARY_NAME)|BINARY_NAME='$$LOWER_PROJECT'|g' makefile; \
+	sed -i 's|APP_NAME=$(APP_NAME)|APP_NAME='$$LOWER_PROJECT'|g' makefile; \
+	sed -i 's|DOCKER_IMAGE_NAME=$(DOCKER_IMAGE_NAME)|DOCKER_IMAGE_NAME='$$LOWER_PROJECT'|g' makefile; \
 	echo "Setup completed!"
 
 # Help (list all targets)
