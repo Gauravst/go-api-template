@@ -29,11 +29,10 @@ A Production-Ready Go template to kickstart your next Go lang Project.
 
 ## Setup
 
-### 1. Clone the Repository
+### 1. Clone the Repository in Your Project Directory
 
 ```bash
-git clone https://github.com/your-username/got-template.git
-cd got-template
+git clone https://github.com/gauravst/got.git .
 ```
 
 ### 2. Run Setup
@@ -46,7 +45,7 @@ make setup
 
 Edit the following files:
 
-- `config/local.yaml` – App configuration (port, log level, etc.)
+- `config/local.yaml` – App configuration (port, host etc.)
 - `.env` – Secrets and environment variables
 
 ## Dependencies
