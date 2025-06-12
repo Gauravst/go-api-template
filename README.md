@@ -1,11 +1,9 @@
 # GOT - Go Template
 
-![Version](https://img.shields.io/badge/version-1.0.5-blue)
+![Version](https://img.shields.io/badge/version-0.1.0--alpha-blue)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A Production-Ready Go template to kickstart your next Go lang Project.
-
----
 
 ## Table of Contents
 
@@ -16,8 +14,6 @@ A Production-Ready Go template to kickstart your next Go lang Project.
 - [Migrations](#migrations)
 - [Contributing](#contributing)
 - [License](#license)
-
----
 
 ## Features
 
@@ -30,8 +26,6 @@ A Production-Ready Go template to kickstart your next Go lang Project.
 - Environment Config
 - Modular Structure
 - Testing Framework
-
----
 
 ## Setup
 
@@ -48,8 +42,6 @@ cd got-template
 make setup
 ```
 
----
-
 ## Configuration
 
 Edit the following files:
@@ -57,15 +49,11 @@ Edit the following files:
 - `config/local.yaml` – App configuration (port, log level, etc.)
 - `.env` – Secrets and environment variables
 
----
-
 ## Dependencies
 
 ```bash
 go mod download
 ```
-
----
 
 ## Migrations
 
@@ -74,13 +62,9 @@ make migrate-up    # Apply migrations
 make migrate-down  # Rollback migrations
 ```
 
----
-
 ## Contributing
 
 Feel free to open issues and submit PRs. All contributions are welcome!
-
----
 
 ## License
 
