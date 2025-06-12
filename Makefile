@@ -123,7 +123,7 @@ setup:
 		if [ "$$API_APP" = "n" ]; then \
 			echo "Removing API App..."; \
 			rm -rf $(OLD_CMD_DIR_API); \
-			rm -rf internal/api
+			rm -rf internal/api; \ 
 		else \
 			echo "Renaming API App main.go..."; \
 			mkdir -p $$NEW_CMD_DIR-api; \
@@ -133,7 +133,7 @@ setup:
 		if [ "$$CLI_APP" = "n" ]; then \
 			echo "Removing CLI App..."; \
 			rm -rf $(OLD_CMD_DIR_CLI); \
-			rm -rf internal/cli
+			rm -rf internal/cli; \ 
 		else \
 			echo "Renaming CLI App main.go..."; \
 			mkdir -p $$NEW_CMD_DIR-cli; \
