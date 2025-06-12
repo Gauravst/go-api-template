@@ -106,63 +106,55 @@ check: fmt test build
 SHELL := bash
 
 setup:
-	@{ \
-		# asking for github username for go project
+	@bash -c '\
 		echo "Enter your GitHub username :-"; \
 		read USERNAME; \
-		# asking for project name
 		echo "Enter your project name :-"; \
 		read PROJECT; \
-		# asking if user need APIs
 		echo "Do you need API App? (y/n) :-"; \
 		read API_APP; \
-		# asking if user need cli app
 		echo "Do you need CLI App? (y/n) :-"; \
 		read CLI_APP; \
-		# basic Variables and setup Variables
-		LOWER_USERNAME=$$(echo $$USERNAME | tr '[:upper:]' '[:lower:]'); \
-		LOWER_PROJECT=$$(echo $$PROJECT | tr '[:upper:]' '[:lower:]'); \
+		LOWER_USERNAME=$$(echo $$USERNAME | tr "[:upper:]" "[:lower:]"); \
+		LOWER_PROJECT=$$(echo $$PROJECT | tr "[:upper:]" "[:lower:]"); \
 		NEW_IMPORT=github.com/$$LOWER_USERNAME/$$LOWER_PROJECT; \
 		NEW_CMD_DIR=cmd/$$LOWER_PROJECT; \
 		mkdir -p $$NEW_CMD_DIR; \
-		# Removing and changing cmd file and folder name
-		if [[ "$$API_APP" == "n" ]]; then \
+		if [ "$$API_APP" = "n" ]; then \
 			echo "Removing API App..."; \
 			rm -rf $(OLD_CMD_DIR_API); \
+			rm -rf internal/api
 		else \
-			echo "Renaming API App's main.go"; \
-			mv $(OLD_CMD_DIR_API)/main.go "$$NEW_CMD_DIR-api"/main.go; \
+			echo "Renaming API App main.go..."; \
+			mkdir -p $$NEW_CMD_DIR-api; \
+			mv $(OLD_CMD_DIR_API)/main.go $$NEW_CMD_DIR-api/main.go; \
 			rm -rf $(OLD_CMD_DIR_API); \
 		fi; \
-		if [[ "$$CLI_APP" == "n" ]]; then \
+		if [ "$$CLI_APP" = "n" ]; then \
 			echo "Removing CLI App..."; \
 			rm -rf $(OLD_CMD_DIR_CLI); \
+			rm -rf internal/cli
 		else \
-			echo "Renaming CLI App's main.go"; \
-			mv $(OLD_CMD_DIR_CLI)/main.go "$$NEW_CMD_DIR-cli"/main.go; \
+			echo "Renaming CLI App main.go..."; \
+			mkdir -p $$NEW_CMD_DIR-cli; \
+			mv $(OLD_CMD_DIR_CLI)/main.go $$NEW_CMD_DIR-cli/main.go; \
 			rm -rf $(OLD_CMD_DIR_CLI); \
 		fi; \
-		# Replacing imports from full project
 		echo "Replacing imports..."; \
-		find . -type f -name "*.go" -exec sed -i 's|$(OLD_IMPORT)|'$$NEW_IMPORT'|g' {} +; \
-		find . -type f -name "go.mod" -exec sed -i 's|$(OLD_IMPORT)|'$$NEW_IMPORT'|g' {} +; \
-		find . -type f -name "go.sum" -exec sed -i 's|$(OLD_IMPORT)|'$$NEW_IMPORT'|g' {} +; \
-		# changing make file var and updating
+		find . -type f -name "*.go" -exec sed -i "s|$(OLD_IMPORT)|$$NEW_IMPORT|g" {} +; \
+		find . -type f -name "go.mod" -exec sed -i "s|$(OLD_IMPORT)|$$NEW_IMPORT|g" {} +; \
+		find . -type f -name "go.sum" -exec sed -i "s|$(OLD_IMPORT)|$$NEW_IMPORT|g" {} +; \
 		echo "Updating Makefile..."; \
-		# updating old import var
-		sed -i 's|OLD_IMPORT=$(OLD_IMPORT)|OLD_IMPORT='$$NEW_IMPORT'|g' Makefile; \
-		# updating old cmd folder name
-		sed -i "s|OLD_CMD_DIR_API=$(OLD_CMD_DIR_API)|OLD_CMD_DIR_API=$${NEW_CMD_DIR}-api|g" Makefile; \
-		sed -i "s|OLD_CMD_DIR_CLI=$(OLD_CMD_DIR_CLI)|OLD_CMD_DIR_CLI=$${NEW_CMD_DIR}-cli|g" Makefile; \
-		# change project name 
-		sed -i 's|PROJECT_NAME=$(PROJECT_NAME)|PROJECT_NAME='$$LOWER_PROJECT'|g' Makefile; \
-		# changing github name 
-		sed -i 's|GITHUB_USERNAME=$(GITHUB_USERNAME)|GITHUB_USERNAME='$$LOWER_USERNAME'|g' Makefile; \
-		sed -i 's|BINARY_NAME=$(BINARY_NAME)|BINARY_NAME='$$LOWER_PROJECT'|g' Makefile; \
-		sed -i 's|APP_NAME=$(APP_NAME)|APP_NAME='$$LOWER_PROJECT'|g' Makefile; \
-		sed -i 's|DOCKER_IMAGE_NAME=$(DOCKER_IMAGE_NAME)|DOCKER_IMAGE_NAME='$$LOWER_PROJECT'|g' Makefile; \
+		sed -i "s|OLD_IMPORT=$(OLD_IMPORT)|OLD_IMPORT=$$NEW_IMPORT|g" Makefile; \
+		sed -i "s|OLD_CMD_DIR_API=$(OLD_CMD_DIR_API)|OLD_CMD_DIR_API=$$NEW_CMD_DIR-api|g" Makefile; \
+		sed -i "s|OLD_CMD_DIR_CLI=$(OLD_CMD_DIR_CLI)|OLD_CMD_DIR_CLI=$$NEW_CMD_DIR-cli|g" Makefile; \
+		sed -i "s|PROJECT_NAME=$(PROJECT_NAME)|PROJECT_NAME=$$LOWER_PROJECT|g" Makefile; \
+		sed -i "s|GITHUB_USERNAME=$(GITHUB_USERNAME)|GITHUB_USERNAME=$$LOWER_USERNAME|g" Makefile; \
+		sed -i "s|BINARY_NAME=$(BINARY_NAME)|BINARY_NAME=$$LOWER_PROJECT|g" Makefile; \
+		sed -i "s|APP_NAME=$(APP_NAME)|APP_NAME=$$LOWER_PROJECT|g" Makefile; \
+		sed -i "s|DOCKER_IMAGE_NAME=$(DOCKER_IMAGE_NAME)|DOCKER_IMAGE_NAME=$$LOWER_PROJECT|g" Makefile; \
 		echo "Setup completed!"; \
-	}
+	'
 
 # Help (list all targets)
 help:

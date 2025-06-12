@@ -35,7 +35,13 @@ A Production-Ready Go template to kickstart your next Go lang Project.
 git clone https://github.com/gauravst/got.git .
 ```
 
-### 2. Run Setup
+### 2. Create .env file from .env.example
+
+```bash
+cp .env.example .env
+```
+
+### 3. Run Setup
 
 ```bash
 make setup
