@@ -123,7 +123,7 @@ setup:
 		if [ "$$API_APP" = "n" ]; then \
 			echo "Removing API App..."; \
 			rm -rf $(OLD_CMD_DIR_API); \
-			rm -rf internal/api; \ 
+			rm -rf internal/api; \
 		else \
 			echo "Renaming API App main.go..."; \
 			mkdir -p $$NEW_CMD_DIR-api; \
@@ -133,7 +133,7 @@ setup:
 		if [ "$$CLI_APP" = "n" ]; then \
 			echo "Removing CLI App..."; \
 			rm -rf $(OLD_CMD_DIR_CLI); \
-			rm -rf internal/cli; \ 
+			rm -rf internal/cli; \
 		else \
 			echo "Renaming CLI App main.go..."; \
 			mkdir -p $$NEW_CMD_DIR-cli; \
@@ -146,8 +146,8 @@ setup:
 		find . -type f -name "go.sum" -exec sed -i "s|$(OLD_IMPORT)|$$NEW_IMPORT|g" {} +; \
 		echo "Updating Makefile..."; \
 		sed -i "s|OLD_IMPORT=$(OLD_IMPORT)|OLD_IMPORT=$$NEW_IMPORT|g" Makefile; \
-		sed -i "s|OLD_CMD_DIR_API=$(OLD_CMD_DIR_API)|OLD_CMD_DIR_API=$$NEW_CMD_DIR-api|g" Makefile; \
-		sed -i "s|OLD_CMD_DIR_CLI=$(OLD_CMD_DIR_CLI)|OLD_CMD_DIR_CLI=$$NEW_CMD_DIR-cli|g" Makefile; \
+		sed -i "s|OLD_CMD_DIR_API=$(OLD_CMD_DIR_API)|OLD_CMD_DIR_API=$${NEW_CMD_DIR}-api|g" Makefile; \
+		sed -i "s|OLD_CMD_DIR_CLI=$(OLD_CMD_DIR_CLI)|OLD_CMD_DIR_CLI=$${NEW_CMD_DIR}-cli|g" Makefile; \
 		sed -i "s|PROJECT_NAME=$(PROJECT_NAME)|PROJECT_NAME=$$LOWER_PROJECT|g" Makefile; \
 		sed -i "s|GITHUB_USERNAME=$(GITHUB_USERNAME)|GITHUB_USERNAME=$$LOWER_USERNAME|g" Makefile; \
 		sed -i "s|BINARY_NAME=$(BINARY_NAME)|BINARY_NAME=$$LOWER_PROJECT|g" Makefile; \
