@@ -3,7 +3,7 @@ package middleware
 import (
 	"net/http"
 
-	"github.com/gauravst/go-api-template/internal/config"
+	"github.com/gauravst/got/internal/config"
 )
 
 func CORS(cfg *config.Config) func(http.Handler) http.Handler {

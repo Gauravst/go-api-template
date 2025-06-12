@@ -4,8 +4,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/gauravst/go-api-template/internal/models"
-	"github.com/gauravst/go-api-template/internal/repositories"
+	"github.com/gauravst/got/internal/models"
+	"github.com/gauravst/got/internal/repositories"
 )
 
 type UserService interface {

@@ -1,5 +1,7 @@
 # Ignore the Go binary (if it exists locally)
-go-api-template
+got
+got-api
+got-cli
 
 # Ignore dependency directories
 vendor/

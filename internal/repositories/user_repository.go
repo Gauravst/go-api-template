@@ -3,7 +3,7 @@ package repositories
 import (
 	"database/sql"
 
-	"github.com/gauravst/go-api-template/internal/models"
+	"github.com/gauravst/got/internal/models"
 )
 
 // UserRepository defines the interface for user-related database operations

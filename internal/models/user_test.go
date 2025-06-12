@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gauravst/go-api-template/internal/models"
+	"github.com/gauravst/got/internal/models"
 	"github.com/go-playground/validator/v10"
 )
 

@@ -7,9 +7,9 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/gauravst/go-api-template/internal/models"
-	"github.com/gauravst/go-api-template/internal/services"
-	"github.com/gauravst/go-api-template/internal/utils/response"
+	"github.com/gauravst/got/internal/models"
+	"github.com/gauravst/got/internal/services"
+	"github.com/gauravst/got/internal/utils/response"
 	"github.com/go-playground/validator/v10"
 )
 

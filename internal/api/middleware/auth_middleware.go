@@ -4,9 +4,9 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/gauravst/go-api-template/internal/config"
-	"github.com/gauravst/go-api-template/internal/utils/jwtToken"
-	"github.com/gauravst/go-api-template/internal/utils/response"
+	"github.com/gauravst/got/internal/config"
+	"github.com/gauravst/got/internal/utils/jwtToken"
+	"github.com/gauravst/got/internal/utils/response"
 )
 
 type contextKey string

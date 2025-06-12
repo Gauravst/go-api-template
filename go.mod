@@ -1,4 +1,4 @@
-module github.com/gauravst/go-api-template
+module github.com/gauravst/got
 
 go 1.23.4
 

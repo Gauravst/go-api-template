@@ -1,50 +1,87 @@
-# Go API Template
+# GOT - Go Template
 
 ![Version](https://img.shields.io/badge/version-1.0.5-blue)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-This is a production-ready Go backend API template designed to kickstart your next project.
+A Production-Ready Go template to kickstart your next Go lang Project.
+
+---
+
+## Table of Contents
+
+- [Features](#features)
+- [Setup](#setup)
+- [Configuration](#configuration)
+- [Dependencies](#dependencies)
+- [Migrations](#migrations)
+- [Contributing](#contributing)
+- [License](#license)
+
+---
 
 ## Features
 
-- **Multiple Database Support**: Easily switch between different databases (e.g., PostgreSQL, MySQL, SQLite).
-- **Docker Integration**: Run the application and its dependencies in isolated containers.
-- **Makefile**: Simplify common tasks like building, testing, and running the application.
-- **Database Migrations**: Manage database schema changes with ease.
-- **Configuration Management**: Use `local.yaml` for environment-specific configurations.
-- **Modular Structure**: Organized into `models`, `database`, `handlers`, `middleware`, `repositories`, and `services`.
-- **Testing System**: Includes a robust testing framework for unit and integration tests.
+- Database Support
+- Docker Integration
+- Makefile Commands
+- CLI Support
+- REST API Ready
+- Database Migrations
+- Environment Config
+- Modular Structure
+- Testing Framework
+
+---
 
 ## Setup
 
-### 1. Create a New Repository
+### 1. Clone the Repository
 
-Click the **"Use this template"** button at the top right of this repository to create your own copy.
+```bash
+git clone https://github.com/your-username/got-template.git
+cd got-template
+```
 
-### 2. Configure the Application
+### 2. Run Setup
 
-Update the following files with your environment-specific settings:
+```bash
+make setup
+```
 
-- **`config/local.yaml`**: Add your application-specific configurations (e.g., server port, logging level).
-- **`.env`**: Add your environment variables (e.g., database credentials, API keys).
+---
 
-### 3. Download Dependencies
+## Configuration
 
-`go mod download`
+Edit the following files:
 
-### 4. Run Your App
+- `config/local.yaml` – App configuration (port, log level, etc.)
+- `.env` – Secrets and environment variables
 
-`make run`
+---
 
-### 5. Database Migrations
+## Dependencies
 
-- To apply migrations: `make migrate-up`
-- To rollback migrations: `make migrate-down`
+```bash
+go mod download
+```
+
+---
+
+## Migrations
+
+```bash
+make migrate-up    # Apply migrations
+make migrate-down  # Rollback migrations
+```
+
+---
 
 ## Contributing
 
-Contributions are welcome! Please open an issue or submit a pull request for any improvements or bug fixes.
+Feel free to open issues and submit PRs. All contributions are welcome!
+
+---
 
 ## License
 
-This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
+Licensed under the [MIT License](LICENSE).

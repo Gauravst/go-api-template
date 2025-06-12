@@ -12,7 +12,7 @@ RUN go mod download
 COPY . .
 
 # Build the Go application.
-RUN CGO_ENABLED=0 GOOS=linux go build -o go-api-template .
+RUN CGO_ENABLED=0 GOOS=linux go build -o got .
 
 # Use a minimal Alpine image for the final stage.
 FROM alpine:latest
@@ -21,7 +21,7 @@ FROM alpine:latest
 WORKDIR /root/
 
 # Copy the binary from the builder stage.
-COPY --from=builder /app/go-api-template .
+COPY --from=builder /app/got .
 
 # Expose the port the app runs on.
 EXPOSE 8080
