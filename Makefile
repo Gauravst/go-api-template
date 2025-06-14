@@ -119,7 +119,6 @@ setup:
 		LOWER_PROJECT=$$(echo $$PROJECT | tr "[:upper:]" "[:lower:]"); \
 		NEW_IMPORT=github.com/$$LOWER_USERNAME/$$LOWER_PROJECT; \
 		NEW_CMD_DIR=cmd/$$LOWER_PROJECT; \
-		mkdir -p $$NEW_CMD_DIR; \
 		if [ "$$API_APP" = "n" ]; then \
 			echo "Removing API App..."; \
 			rm -rf $(OLD_CMD_DIR_API); \
@@ -149,6 +148,8 @@ setup:
 		sed -i "s|OLD_CMD_DIR_API=$(OLD_CMD_DIR_API)|OLD_CMD_DIR_API=$${NEW_CMD_DIR}-api|g" Makefile; \
 		sed -i "s|OLD_CMD_DIR_CLI=$(OLD_CMD_DIR_CLI)|OLD_CMD_DIR_CLI=$${NEW_CMD_DIR}-cli|g" Makefile; \
 		sed -i "s|PROJECT_NAME=$(PROJECT_NAME)|PROJECT_NAME=$$LOWER_PROJECT|g" Makefile; \
+		sed -i "s|PROJECT_NAME_API=$(PROJECT_NAME_API)|PROJECT_NAME_API=$${LOWER_PROJECT}-api|g" Makefile; \
+		sed -i "s|PROJECT_NAME_CLI=$(PROJECT_NAME_CLI)|PROJECT_NAME_CLI=$${LOWER_PROJECT}-cli|g" Makefile; \
 		sed -i "s|GITHUB_USERNAME=$(GITHUB_USERNAME)|GITHUB_USERNAME=$$LOWER_USERNAME|g" Makefile; \
 		sed -i "s|BINARY_NAME=$(BINARY_NAME)|BINARY_NAME=$$LOWER_PROJECT|g" Makefile; \
 		sed -i "s|APP_NAME=$(APP_NAME)|APP_NAME=$$LOWER_PROJECT|g" Makefile; \

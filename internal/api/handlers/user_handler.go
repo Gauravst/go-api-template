@@ -49,21 +49,3 @@ func CreateUser(userService services.UserService) http.HandlerFunc {
 		response.WriteJson(w, http.StatusCreated, map[string]string{"success": "ok"})
 	}
 }
-
-func GetUser(userService services.UserService) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-
-	}
-}
-
-func UpdateUser(userService services.UserService) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-
-	}
-}
-
-func DeleteUser(userService services.UserService) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-
-	}
-}

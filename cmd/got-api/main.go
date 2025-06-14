@@ -7,11 +7,11 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strconv"
 	"syscall"
 	"time"
 
-	"github.com/gauravst/got/internal/api/handlers"
-	"github.com/gauravst/got/internal/api/middleware"
+	"github.com/gauravst/got/internal/api/router"
 	"github.com/gauravst/got/internal/config"
 	"github.com/gauravst/got/internal/database"
 	"github.com/gauravst/got/internal/repositories"
@@ -26,21 +26,32 @@ func main() {
 	database.InitDB(cfg.DatabaseUri)
 	defer database.CloseDB()
 
-	//setup router
-	router := http.NewServeMux()
-
+	// Repositories and Services
 	userRepo := repositories.NewUserRepository(database.DB)
 	userService := services.NewUserService(userRepo)
 
-	router.HandleFunc("GET /api/user", middleware.Auth(handlers.GetUser(userService)))
-	router.HandleFunc("POST /api/user", handlers.CreateUser(userService))
-	router.HandleFunc("PUT /api/user", middleware.Auth(handlers.UpdateUser(userService)))
-	router.HandleFunc("DELETE /api/user", middleware.Auth(handlers.DeleteUser(userService)))
+	authRepo := repositories.NewAuthRepository(database.DB)
+	authService := services.NewAuthService(authRepo)
 
-	// setup server
+	// Grouped services for injection
+	allServices := &router.AllServices{
+		UserService: userService,
+		AuthService: authService,
+		// add more services here
+	}
+
+	// Create router
+	finalHandler := router.NewRouter(cfg, allServices)
+
+	// Setup server
+	addr := cfg.Address
+	if cfg.HTTPServer.Port != 0 {
+		addr = "0.0.0.0:" + strconv.Itoa(cfg.HTTPServer.Port)
+	}
+
 	server := &http.Server{
-		Addr:    cfg.Address,
-		Handler: router,
+		Addr:    addr,
+		Handler: finalHandler,
 	}
 
 	slog.Info("server started", slog.String("address", cfg.Address))
