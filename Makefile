@@ -12,7 +12,7 @@ PROJECT_NAME_API=got-api
 PROJECT_NAME_CLI=got-cli
 GITHUB_USERNAME=gauravst
 
-# Variables
+# variables
 BINARY_NAME=got
 GO_FILES=$(shell find . -name '*.go' -not -path './vendor/*')
 MIGRATE_PATH=./migrations
@@ -22,89 +22,88 @@ DOCKER_IMAGE_NAME=got
 DOCKER_TAG=latest
 PORT=8080
 
-# Default target
+# default target
 all: build
 
-# Build the application
+# build the application
 build:
 	@echo "Building the application..."
 	go build -o bin/$(BINARY_NAME) cmd/$(PROJECT_NAME)/main.go
 
-# Run the cli application
+# run the api application
 run-api:
 	@echo "Running the application..."
 	go run cmd/$(PROJECT_NAME_API)/main.go
 
-# Run the cli application
+# run the cli application
 run-cli:
 	@echo "Running the application..."
 	go run cmd/$(PROJECT_NAME_CLI)/main.go
 
-# Run tests
+# run tests
 test:
 	@echo "Running tests..."
 	go test -v ./...
 
-# Format code
+# format code
 fmt:
 	@echo "Formatting code..."
 	go fmt ./...
 
-# Clean build artifacts
+# clean build artifacts
 clean:
 	@echo "Cleaning up..."
 	rm -rf bin/
 
-# Install dependencies
+# install dependencies
 deps:
 	@echo "Installing dependencies..."
 	go mod tidy
 
-# Run all up migrations
+# run all up migrations
 migrate-up:
 	migrate -path $(MIGRATE_PATH) -database $(DB_URL) up
 
-# Run all down migrations
+# run all down migrations
 migrate-down:
 	migrate -path $(MIGRATE_PATH) -database $(DB_URL) down
 
-## Build the Docker image
+## build the Docker image
 docker-build:
 	docker build -t $(DOCKER_IMAGE_NAME):$(DOCKER_TAG) .
 
-## Run the Docker container
+## run the Docker container
 docker-run:
 	docker run -p $(PORT):$(PORT) $(DOCKER_IMAGE_NAME):$(DOCKER_TAG)
 
-## Stop the Docker container
+## stop the Docker container
 docker-stop:
 	docker stop $$(docker ps -q --filter ancestor=$(DOCKER_IMAGE_NAME):$(DOCKER_TAG))
 
-## Remove the Docker container
+## remove the Docker container
 docker-rm:
 	docker rm $$(docker ps -a -q --filter ancestor=$(DOCKER_IMAGE_NAME):$(DOCKER_TAG))
 
-## Remove the Docker image
+## remove the Docker image
 docker-rmi:
 	docker rmi $(DOCKER_IMAGE_NAME):$(DOCKER_TAG)
 
-## Clean up Docker resources (stop, remove container, and remove image)
+## clean up Docker resources (stop, remove container, and remove image)
 docker-clean: docker-stop docker-rm docker-rmi
 
-# Combined commands
-
-## Build and run the Go application
+## build and run the Go application
 all: build run
 
-## Build and run the Docker container
+## build and run the Docker container
 docker-all: docker-build docker-run
 
-# Run all checks (format, test, build)
+# run all checks (format, test, build)
 check: fmt test build
 
 # template migrate 
 SHELL := bash
 
+# setup for project
 setup:
 	@bash -c '\
 		echo "Enter your GitHub username :-"; \
@@ -115,6 +114,20 @@ setup:
 		read API_APP; \
 		echo "Do you need CLI App? (y/n) :-"; \
 		read CLI_APP; \
+		echo "Do you need Database? (y/n) :-"; \
+		read DB; \
+		if [ "$$DB" = "y" ]; then \
+			echo "postgres or sqlite? (p/s) :-"; \
+			read DB_TYPE; \
+			echo "Do you need ORM (Gorm)? (y/n) :-"; \
+			read ORM; \
+		fi; \
+		echo "Do you need unit/e2e/integration Testing? (y/n) :-"; \
+		read TESTING; \
+		echo "Do You need github workflow, CI/CD (y/n) :-"; \
+		read WORKFLOW; \
+		echo "Do you need Docker file setup? (y/n) :-"; \
+		read IS_DOCKER; \
 		LOWER_USERNAME=$$(echo $$USERNAME | tr "[:upper:]" "[:lower:]"); \
 		LOWER_PROJECT=$$(echo $$PROJECT | tr "[:upper:]" "[:lower:]"); \
 		NEW_IMPORT=github.com/$$LOWER_USERNAME/$$LOWER_PROJECT; \
@@ -138,6 +151,53 @@ setup:
 			mkdir -p $$NEW_CMD_DIR-cli; \
 			mv $(OLD_CMD_DIR_CLI)/main.go $$NEW_CMD_DIR-cli/main.go; \
 			rm -rf $(OLD_CMD_DIR_CLI); \
+		fi; \
+		if [ "$$DB" = "n" ]; then \
+			echo "Removing database..."; \
+			rm -rf internal/database; \
+		else \
+			if [ "$$ORM" = "y" ]; then \
+				echo "Adding ORM..."; \
+				rm -rf migrations; \
+				rm -f internal/database/database.go; \
+			else \
+				echo "Adding Raw SQL setup"
+				rm -f internal/database/init.go; \
+				rm -f internal/database/postgres.go; \
+				rm -f internal/database/sqlite.go; \
+			fi; \
+			if [ "$$DB_TYPE" = "p" ]; then \
+				if [ "$$ORM" = "y" ]; then \
+					echo "Adding Postgres Db..."; \
+					rm -f internal/database/database.go; \
+				else \
+					# something here
+				fi; \
+			else \
+				if [ "$$ORM" = "y" ]; then \
+					echo "Adding Sqlite"
+				else \
+					# something here
+				fi; \
+			fi; \
+		fi; \
+		if [ "$$TESTING" = "n" ]; then \
+			echo "Removing Testing..."; \
+			rm -rf test; \
+			find . -type f -name '*_test.go' -delete; \
+		fi; \
+		if [ "$$WORKFLOW" = "n" ]; then \
+			echo "Removing workflow..."; \
+			rm -rf .github/workflows; \
+		else \
+			if [ "$$TESTING" = "n" ]; then \
+				rm -f .github/workflows/test.yml; \
+			fi; \
+		fi; \
+		if [ "$$IS_DOCKER" = "n" ]; then \
+			echo "Removing Docker setup..."; \
+			rm -f Dockerfile; \
+			rm -f .dockerignore; \
 		fi; \
 		echo "Replacing imports..."; \
 		find . -type f -name "*.go" -exec sed -i "s|$(OLD_IMPORT)|$$NEW_IMPORT|g" {} +; \

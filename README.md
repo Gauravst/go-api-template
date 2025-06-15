@@ -1,6 +1,6 @@
 # GOT - Go Template
 
-![Version](https://img.shields.io/badge/version-0.1.0--alpha-blue)
+![Version](https://img.shields.io/badge/version-0.2.0--alpha-blue)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A Production-Ready Go template to kickstart your next Go lang Project.
@@ -18,6 +18,7 @@ A Production-Ready Go template to kickstart your next Go lang Project.
 ## Features
 
 - Database Support
+- ORM Support
 - Docker Integration
 - Makefile Commands
 - CLI Support
@@ -25,7 +26,7 @@ A Production-Ready Go template to kickstart your next Go lang Project.
 - Database Migrations
 - Environment Config
 - Modular Structure
-- Testing Framework
+- Testing e2e/integration/unit Support
 
 ## Setup
 

@@ -27,4 +27,4 @@ COPY --from=builder /app/got .
 EXPOSE 8080
 
 # Command to run the application.
-CMD ["./go-api-template"]
+CMD ["./got"]
