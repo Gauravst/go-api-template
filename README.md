@@ -12,6 +12,7 @@ A Production-Ready Go template to kickstart your next Go lang Project.
 - [Configuration](#configuration)
 - [Dependencies](#dependencies)
 - [Migrations](#migrations)
+- [Documentation](#Documentation)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -67,6 +68,10 @@ go mod download
 make migrate-up    # Apply migrations
 make migrate-down  # Rollback migrations
 ```
+
+## Documentation
+
+- [Folder Structure](docs/folder-structure.md)
 
 ## Contributing
 
